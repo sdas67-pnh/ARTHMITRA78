@@ -3,452 +3,626 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>ArthMitra — Agentic AI Banking</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<title>ArthMitra — Intelligent Banking Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --navy:#060E1F;--navy2:#0A1628;--navy3:#0F2240;
-    --blue:#1A56DB;--cyan:#06B6D4;--teal:#0D9488;
-    --gold:#F59E0B;--green:#10B981;--red:#EF4444;--purple:#8B5CF6;
-    --white:#FFFFFF;--off:#F0F4FF;--gray:#94A3B8;--dgray:#1E293B;
-    --border:rgba(148,163,184,0.18);
+    --primary: #0F172A; /* Slate 900 */
+    --primary-light: #334155; /* Slate 700 */
+    --accent: #2563EB; /* Royal Blue */
+    --accent-dark: #1E40AF;
+    --success: #059669; /* Emerald */
+    --bg-body: #FFFFFF;
+    --bg-subtle: #F8FAFC; /* Slate 50 */
+    --bg-card: #FFFFFF;
+    --border: #E2E8F0; /* Slate 200 */
+    --text-main: #1E293B; /* Slate 800 */
+    --text-muted: #64748B; /* Slate 500 */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  html,body{width:100%;height:100%;background:#030810;overflow:hidden;font-family:'DM Sans',sans-serif;cursor:none}
 
-  .cursor{position:fixed;width:12px;height:12px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:screen;transition:transform .15s}
-  .cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(6,182,212,.5);border-radius:50%;pointer-events:none;z-index:9998}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
 
-  .progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--blue));transition:width .5s ease;z-index:200}
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Manrope', sans-serif;
+    color: var(--primary);
+    line-height: 1.2;
+  }
 
-  .deck{position:relative;width:100vw;height:100vh;overflow:hidden}
+  a { text-decoration: none; color: inherit; transition: color 0.2s; }
+  ul { list-style: none; }
 
-  .slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .55s cubic-bezier(.4,0,.2,1),transform .55s cubic-bezier(.4,0,.2,1);transform:translateY(28px)}
-  .slide.active{opacity:1;pointer-events:all;transform:translateY(0)}
-  .slide.exit{opacity:0;transform:translateY(-28px)}
-  .slide::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1;opacity:.3}
+  /* Utilities */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+  .btn-primary {
+    background-color: var(--accent);
+    color: white;
+  }
+  .btn-primary:hover {
+    background-color: var(--accent-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+  .btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--border);
+    color: var(--primary);
+  }
+  .btn-outline:hover {
+    border-color: var(--primary);
+    background-color: var(--bg-subtle);
+  }
+  .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .badge-blue { background: #EFF6FF; color: var(--accent); }
+  .badge-green { background: #ECFDF5; color: var(--success); }
 
-  .nav{position:fixed;right:2rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:100}
-  .nav-dot{width:6px;height:6px;border-radius:50%;background:rgba(148,163,184,.25);cursor:pointer;transition:all .3s;border:none;outline:none}
-  .nav-dot.active{background:var(--cyan);transform:scale(1.7)}
-  .nav-dot:hover{background:var(--gray)}
+  /* Navbar */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+  }
+  .nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  .brand {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .brand span { color: var(--accent); }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+  }
+  .nav-links a {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--primary-light);
+  }
+  .nav-links a:hover { color: var(--accent); }
 
-  .slide-counter{position:fixed;bottom:2rem;right:2.5rem;font-family:'DM Mono',monospace;font-size:11px;color:var(--gray);letter-spacing:.1em;z-index:100}
-  .arrow{position:fixed;bottom:1.8rem;z-index:100;background:none;border:1px solid var(--border);color:var(--gray);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .2s}
-  .arrow:hover{border-color:var(--cyan);color:var(--cyan)}
-  #prev{left:calc(50% - 50px)}
-  #next{left:calc(50% + 12px)}
+  /* Hero Section */
+  .hero {
+    padding-top: 140px;
+    padding-bottom: 80px;
+    background: radial-gradient(circle at top right, #F1F5F9 0%, transparent 40%),
+                radial-gradient(circle at bottom left, #EFF6FF 0%, transparent 40%);
+  }
+  .hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .hero-text h1 {
+    font-size: 3.5rem;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+  }
+  .hero-text p {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    max-width: 540px;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border);
+  }
+  .stat-item h4 { font-size: 1.75rem; color: var(--primary); font-weight: 800; }
+  .stat-item span { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
 
-  .slide-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gray);opacity:.7}
-  .tag{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:99px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border:1px solid;font-family:'DM Mono',monospace}
-  .card{background:rgba(15,34,64,.6);border:1px solid var(--border);border-radius:16px;backdrop-filter:blur(12px)}
-  .grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(6,182,212,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(6,182,212,.035) 1px,transparent 1px);background-size:60px 60px}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-  .anim{animation:fadeUp .45s both}
+  /* Dashboard Mockup in Hero */
+  .hero-visual {
+    position: relative;
+  }
+  .app-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+  }
+  .app-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #FAFAFA;
+  }
+  .app-body { padding: 24px; }
+  .balance-card {
+    background: linear-gradient(135deg, var(--primary) 0%, #1E293B 100%);
+    color: white;
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+  }
+  .balance-label { font-size: 0.85rem; opacity: 0.8; margin-bottom: 8px; }
+  .balance-amount { font-size: 2rem; font-weight: 700; }
+  .tx-list { display: flex; flex-direction: column; gap: 16px; }
+  .tx-item { display: flex; justify-content: space-between; align-items: center; }
+  .tx-icon {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: #EFF6FF; color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+  }
+  .tx-details { flex: 1; margin-left: 12px; }
+  .tx-title { font-size: 0.9rem; font-weight: 600; color: var(--primary); }
+  .tx-date { font-size: 0.75rem; color: var(--text-muted); }
+  .tx-amount { font-weight: 600; color: var(--primary); }
 
-  /* ── S1 HERO ── */
-  #s1{background:var(--navy)}
-  .s1-orb{position:absolute;border-radius:50%;filter:blur(80px)}
-  .s1-content{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;height:100%;padding:0 7%;align-items:center;gap:3rem}
-  .s1-left{display:flex;flex-direction:column;gap:1.8rem}
-  .s1-eyebrow{display:flex;align-items:center;gap:12px}
-  .s1-line{width:28px;height:2px;background:var(--cyan)}
-  .s1-title{font-family:'Syne',sans-serif;font-size:clamp(3.5rem,6.5vw,6rem);font-weight:800;line-height:.92;color:var(--white);letter-spacing:-.03em}
-  .s1-title span{color:var(--cyan)}
-  .s1-sub{font-size:1rem;color:var(--gray);line-height:1.7;max-width:430px;font-weight:300}
-  .s1-tags{display:flex;flex-wrap:wrap;gap:8px}
-  .s1-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}
-  .s1-kpi{background:rgba(10,22,40,.92);padding:1.1rem .9rem;display:flex;flex-direction:column;gap:4px;backdrop-filter:blur(8px)}
-  .s1-kpi-val{font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:800;line-height:1}
-  .s1-kpi-lbl{font-size:.65rem;color:var(--gray);letter-spacing:.05em}
-  .s1-right{position:relative}
-  .s1-pipeline{display:flex;flex-direction:column;gap:7px}
-  .s1-stage{display:flex;align-items:center;gap:14px;padding:11px 16px;border-radius:9px;border:1px solid var(--border);background:rgba(15,34,64,.5);backdrop-filter:blur(8px);transition:all .3s;animation:fadeUp .5s both}
-  .s1-stage:hover{background:rgba(15,34,64,.9);border-color:var(--cyan);transform:translateX(-5px)}
-  .stage-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--gray);width:18px}
-  .stage-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-  .stage-name{font-size:.8rem;color:var(--white);font-weight:500;flex:1}
-  .stage-tag{font-size:.62rem;color:var(--gray);font-family:'DM Mono',monospace}
+  /* Flow Diagram Section */
+  .section { padding: 100px 0; }
+  .bg-subtle { background-color: var(--bg-subtle); }
+  
+  .section-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 60px;
+  }
+  .section-header h2 { font-size: 2.5rem; margin-bottom: 16px; }
+  .section-header p { color: var(--text-muted); font-size: 1.1rem; }
 
-  /* ── S2 PROBLEM/SOLUTION ── */
-  #s2{background:#070F1F}
-  .s2-content{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;height:100%}
-  .s2-half{padding:4.5% 5% 3%;display:flex;flex-direction:column;gap:1.6rem;overflow:hidden}
-  .s2-half:last-child{border-left:1px solid var(--border)}
-  .s2-title{font-family:'Syne',sans-serif;font-size:1.55rem;font-weight:700;line-height:1.1}
-  .prob-item{display:flex;align-items:flex-start;gap:14px;padding:12px 0;border-bottom:1px solid var(--border)}
-  .prob-stat{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;min-width:85px;line-height:1}
-  .prob-desc{font-size:.79rem;color:var(--gray);line-height:1.55;padding-top:2px}
-  .sol-item{display:flex;gap:14px;align-items:flex-start}
-  .sol-bar{width:3px;border-radius:2px;flex-shrink:0;margin-top:3px;min-height:36px}
-  .sol-label{font-size:.85rem;font-weight:600;margin-bottom:3px}
-  .sol-desc{font-size:.73rem;color:var(--gray);line-height:1.55}
+  .flow-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    padding: 40px 0;
+  }
+  /* Connecting Line */
+  .flow-diagram::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50px;
+    right: 50px;
+    height: 2px;
+    background: var(--border);
+    z-index: 0;
+    transform: translateY(-50%);
+  }
 
-  /* ── S3 PIPELINE ── */
-  #s3{background:var(--navy)}
-  .s3-content{position:relative;z-index:2;display:flex;flex-direction:column;padding:3.5% 6% 2.5%;height:100%;gap:2rem}
-  .s3-hdr{display:flex;justify-content:space-between;align-items:flex-end}
-  .s3-title{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:700;color:var(--white)}
-  .pipeline-flow{display:flex;align-items:center;gap:0;flex:0 0 auto}
-  .pipe-node{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
-  .pipe-box{width:100%;padding:12px 6px;border:1px solid var(--border);border-radius:9px;text-align:center;background:rgba(15,34,64,.6);backdrop-filter:blur(8px);transition:all .3s;position:relative;overflow:hidden}
-  .pipe-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--col)}
-  .pipe-box:hover{transform:translateY(-4px);border-color:var(--col)}
-  .pipe-name{font-size:.72rem;font-weight:600;color:var(--white)}
-  .pipe-sub{font-size:.6rem;color:var(--gray);margin-top:2px;font-family:'DM Mono',monospace}
-  .pipe-arrow{color:var(--border);font-size:.85rem;padding:0 3px;flex-shrink:0}
-  .enrich-layer{background:rgba(15,34,64,.4);border:1px solid var(--border);border-radius:12px;padding:1rem 1.3rem;display:flex;flex-direction:column;gap:10px}
-  .enrich-title{font-size:.68rem;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;font-family:'DM Mono',monospace}
-  .enrich-nodes{display:flex;gap:8px}
-  .enrich-node{flex:1;padding:9px 10px;border-radius:7px;border:1px solid var(--border);font-size:.68rem;color:var(--gray);text-align:center;line-height:1.4;background:rgba(6,14,31,.5);transition:all .25s}
-  .enrich-node:hover{color:var(--white);border-color:var(--teal);background:rgba(13,148,136,.1)}
-  .enrich-node b{display:block;color:var(--teal);font-size:.6rem;margin-bottom:2px;font-family:'DM Mono',monospace}
-  .outcomes-row{display:flex;gap:10px}
-  .outcome{flex:1;padding:12px 14px;border-radius:9px;border:1px solid;background:rgba(15,34,64,.4)}
-  .outcome-label{font-size:.74rem;font-weight:700;letter-spacing:.05em;margin-bottom:5px}
-  .outcome-desc{font-size:.68rem;color:var(--gray);line-height:1.5}
+  .flow-step {
+    position: relative;
+    z-index: 1;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    width: 200px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .flow-step:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent);
+  }
+  .flow-icon {
+    width: 48px;
+    height: 48px;
+    background: #EFF6FF;
+    color: var(--accent);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 1.5rem;
+  }
+  .flow-title { font-weight: 700; margin-bottom: 8px; font-size: 1rem; }
+  .flow-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
 
-  /* ── S4 MULTI-AGENT ── */
-  #s4{background:#080F20}
-  .s4-content{position:relative;z-index:2;height:100%;display:grid;grid-template-columns:40% 60%}
-  .s4-left{padding:5% 4% 3% 7%;display:flex;flex-direction:column;gap:1.8rem;border-right:1px solid var(--border);justify-content:center}
-  .s4-big{font-family:'Syne',sans-serif;font-size:2.1rem;font-weight:800;color:var(--white);line-height:1.1}
-  .s4-big span{color:var(--purple)}
-  .s4-desc{font-size:.8rem;color:var(--gray);line-height:1.7}
-  .master-chip{display:inline-flex;flex-direction:column;gap:4px;padding:14px 18px;border-radius:11px;border:1.5px solid var(--purple);background:rgba(139,92,246,.08);width:fit-content}
-  .master-chip-label{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;color:var(--white)}
-  .master-chip-sub{font-size:.65rem;color:var(--purple);font-family:'DM Mono',monospace;letter-spacing:.1em}
-  .s4-note{font-size:.7rem;color:var(--gray);line-height:1.6;font-style:italic;border-left:2px solid var(--purple);padding-left:11px}
-  .s4-right{padding:3.5% 4.5% 3% 3.5%;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:9px;align-items:stretch}
-  .agent-card{padding:13px 15px;border-radius:11px;border:1px solid var(--border);background:rgba(10,22,40,.7);backdrop-filter:blur(8px);display:flex;flex-direction:column;gap:5px;transition:all .3s;cursor:default;position:relative;overflow:hidden}
-  .agent-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--acol)}
-  .agent-card:hover{transform:scale(1.02);border-color:var(--acol);background:rgba(15,34,64,.9)}
-  .agent-name{font-size:.82rem;font-weight:600;padding-left:10px}
-  .agent-sub{font-size:.67rem;color:var(--gray);padding-left:10px;line-height:1.5}
-  .agent-badge{display:inline-block;font-size:.58rem;padding:2px 7px;border-radius:99px;margin-left:10px;margin-top:2px;font-family:'DM Mono',monospace;letter-spacing:.08em;border:1px solid;opacity:.8}
+  /* Features Grid */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .feature-card {
+    background: white;
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+  .feature-card:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-md);
+  }
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+  .feature-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; }
+  .feature-text { color: var(--text-muted); font-size: 0.95rem; }
 
-  /* ── S5 RAG ── */
-  #s5{background:#050D1A}
-  .s5-content{position:relative;z-index:2;height:100%;display:grid;grid-template-columns:1fr 1fr}
-  .s5-half{padding:4% 4.5% 3%;display:flex;flex-direction:column;gap:1.4rem}
-  .s5-half:last-child{border-left:1px solid var(--border);background:rgba(15,34,64,.18)}
-  .s5-title{font-family:'Syne',sans-serif;font-size:1.45rem;font-weight:700;color:var(--white)}
-  .vstep{display:flex;gap:13px;align-items:flex-start}
-  .vstep-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;flex-shrink:0}
-  .vstep-title{font-size:.82rem;font-weight:600;margin-bottom:3px}
-  .vstep-desc{font-size:.7rem;color:var(--gray);line-height:1.55}
-  .rag-bar-row{display:flex;flex-direction:column;gap:13px}
-  .rag-bar-item{display:flex;flex-direction:column;gap:4px}
-  .rag-bar-hdr{display:flex;justify-content:space-between;align-items:center}
-  .rag-bar-lbl{font-size:.71rem;color:var(--gray)}
-  .rag-bar-val{font-family:'DM Mono',monospace;font-size:.71rem;font-weight:500}
-  .rag-bar-track{height:5px;border-radius:3px;background:rgba(255,255,255,.05);overflow:hidden}
-  .rag-bar-fill{height:100%;border-radius:3px;transition:width 1.3s cubic-bezier(.4,0,.2,1);width:0}
-  .rag-meta{padding:11px 13px;border-radius:9px;border:1px solid rgba(6,182,212,.2);background:rgba(6,182,212,.05);font-size:.68rem;color:var(--cyan);line-height:1.6;font-family:'DM Mono',monospace}
+  /* Comparison Table */
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+  }
+  .comparison-table th, .comparison-table td {
+    padding: 20px 24px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .comparison-table th {
+    background: #F8FAFC;
+    font-weight: 600;
+    color: var(--primary-light);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .comparison-table tr:last-child td { border-bottom: none; }
+  .col-highlight {
+    background: #EFF6FF;
+    color: var(--accent-dark);
+    font-weight: 600;
+  }
+  .check-icon { color: var(--success); font-weight: bold; }
+  .cross-icon { color: #94A3B8; }
 
-  /* ── S6 COMPETITIVE ── */
-  #s6{background:#07101F}
-  .s6-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;padding:3.5% 6.5% 2.5%;gap:1.8rem}
-  .s6-title{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:700;color:var(--white)}
-  .compare-table{width:100%;border-collapse:collapse}
-  .compare-table th{padding:9px 14px;text-align:left;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-family:'DM Mono',monospace;border-bottom:1px solid var(--border);color:var(--gray)}
-  .compare-table td{padding:10px 14px;font-size:.8rem;border-bottom:1px solid rgba(148,163,184,.07);color:var(--gray)}
-  .compare-table tr:hover td{background:rgba(255,255,255,.015)}
-  .compare-table td:first-child{color:var(--white);font-weight:500}
-  .compare-table td.am{color:var(--cyan);font-weight:600}
-  .col-am{background:rgba(6,182,212,.05);border-left:1px solid rgba(6,182,212,.15);border-right:1px solid rgba(6,182,212,.15)}
-  .col-am-h{color:var(--cyan)!important}
-  .inno-row{display:flex;gap:12px}
-  .inno-card{flex:1;padding:15px 16px;border-radius:11px;border:1px solid var(--border);background:rgba(15,34,64,.4);transition:all .3s}
-  .inno-card:hover{transform:translateY(-3px);border-color:var(--ic)}
-  .inno-title{font-size:.82rem;font-weight:600;margin-bottom:5px}
-  .inno-desc{font-size:.7rem;color:var(--gray);line-height:1.55}
+  /* Footer */
+  .footer {
+    background: var(--primary);
+    color: white;
+    padding: 80px 0 40px;
+  }
+  .footer-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 60px;
+  }
+  .footer-brand { margin-bottom: 20px; font-size: 1.5rem; font-weight: 800; font-family: 'Manrope', sans-serif; }
+  .footer-desc { color: #94A3B8; max-width: 300px; font-size: 0.9rem; }
+  .footer-col h4 { color: white; margin-bottom: 20px; font-size: 1rem; }
+  .footer-col ul li { margin-bottom: 12px; }
+  .footer-col ul li a { color: #94A3B8; font-size: 0.9rem; }
+  .footer-col ul li a:hover { color: white; }
+  .copyright {
+    border-top: 1px solid #334155;
+    padding-top: 32px;
+    text-align: center;
+    color: #64748B;
+    font-size: 0.85rem;
+  }
 
-  /* ── S7 CLOSING ── */
-  #s7{background:var(--navy);overflow:hidden}
-  .s7-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 12%;gap:2.2rem}
-  .s7-pre{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--cyan);text-transform:uppercase}
-  .s7-title{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,5.5vw,5rem);font-weight:800;line-height:.95;color:var(--white);letter-spacing:-.03em}
-  .s7-title em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px var(--cyan)}
-  .s7-sub{font-size:.95rem;color:var(--gray);max-width:540px;line-height:1.7;font-weight:300}
-  .s7-pillars{display:flex;gap:14px;width:100%;max-width:720px}
-  .s7-pillar{flex:1;padding:18px;border-radius:13px;border:1px solid var(--border);background:rgba(15,34,64,.5);backdrop-filter:blur(12px);display:flex;flex-direction:column;gap:7px;transition:all .35s}
-  .s7-pillar:hover{transform:translateY(-5px);border-color:var(--pc)}
-  .s7-pillar-icon{font-size:1.3rem}
-  .s7-pillar-title{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700}
-  .s7-pillar-desc{font-size:.71rem;color:var(--gray);line-height:1.5}
+  @media (max-width: 768px) {
+    .hero-content, .features-grid, .footer-content { grid-template-columns: 1fr; }
+    .flow-diagram { flex-direction: column; gap: 40px; }
+    .flow-diagram::before { width: 2px; height: 100%; left: 50%; top: 0; bottom: 0; transform: translateX(-50%); }
+    .flow-step { width: 100%; max-width: 300px; }
+    .nav-links { display: none; }
+  }
 </style>
 </head>
 <body>
 
-<div class="cursor" id="cur"></div>
-<div class="cursor-ring" id="curRing"></div>
-<div class="progress" id="progress"></div>
-
-<div class="deck">
-
-  <!-- S1 HERO -->
-  <div class="slide active" id="s1">
-    <div style="position:absolute;inset:0;overflow:hidden">
-      <div class="grid-bg"></div>
-      <div class="s1-orb" style="width:650px;height:650px;background:var(--blue);right:-180px;top:-180px;opacity:.17"></div>
-      <div class="s1-orb" style="width:380px;height:380px;background:var(--cyan);left:-90px;bottom:-90px;opacity:.14"></div>
-      <div class="s1-orb" style="width:280px;height:280px;background:var(--purple);right:28%;bottom:12%;opacity:.09"></div>
-    </div>
-    <div class="s1-content">
-      <div class="s1-left">
-        <div class="s1-eyebrow anim"><div class="s1-line"></div><span class="slide-label">AI-Powered Banking · 2025</span></div>
-        <div class="s1-title anim">Arth<span>Mitra</span></div>
-        <div class="s1-sub anim">Agentic AI that processes loans in 5 minutes with zero-hallucination financial advisory — orchestrated through a multi-agent pipeline with human oversight.</div>
-        <div class="s1-tags anim">
-          <span class="tag" style="color:var(--cyan);border-color:rgba(6,182,212,.3);background:rgba(6,182,212,.07)">● Agentic RAG</span>
-          <span class="tag" style="color:var(--purple);border-color:rgba(139,92,246,.3);background:rgba(139,92,246,.07)">● Multi-Agent</span>
-          <span class="tag" style="color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.07)">● Human-in-Loop</span>
-          <span class="tag" style="color:var(--gold);border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.07)">● Anti-Hallucination</span>
-        </div>
-        <div class="s1-kpis anim">
-          <div class="s1-kpi"><div class="s1-kpi-val" style="color:var(--cyan)">&lt;10s</div><div class="s1-kpi-lbl">Time to Decision</div></div>
-          <div class="s1-kpi"><div class="s1-kpi-val" style="color:var(--gold)">₹5</div><div class="s1-kpi-lbl">Cost Per Loan</div></div>
-          <div class="s1-kpi"><div class="s1-kpi-val" style="color:var(--green)">100%</div><div class="s1-kpi-lbl">Policy Grounded</div></div>
-          <div class="s1-kpi"><div class="s1-kpi-val" style="color:var(--purple)">5min</div><div class="s1-kpi-lbl">Full Processing</div></div>
-        </div>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-content">
+      <div class="brand">Arth<span>Mitra</span></div>
+      <div class="nav-links">
+        <a href="#features">Solutions</a>
+        <a href="#process">How it Works</a>
+        <a href="#security">Security</a>
+        <a href="#contact">Contact</a>
       </div>
-      <div class="s1-right">
-        <div class="slide-label" style="margin-bottom:14px">COGNITIVE PIPELINE</div>
-        <div class="s1-pipeline">
-          <div class="s1-stage" style="animation-delay:.08s"><span class="stage-num">01</span><span class="stage-dot" style="background:var(--cyan)"></span><span class="stage-name">Webhook Trigger</span><span class="stage-tag">INGEST</span></div>
-          <div class="s1-stage" style="animation-delay:.15s"><span class="stage-num">02</span><span class="stage-dot" style="background:var(--blue)"></span><span class="stage-name">Data Enrichment</span><span class="stage-tag">5 APIS</span></div>
-          <div class="s1-stage" style="animation-delay:.22s"><span class="stage-num">03</span><span class="stage-dot" style="background:var(--purple)"></span><span class="stage-name">RAG Retrieval</span><span class="stage-tag">POLICY</span></div>
-          <div class="s1-stage" style="animation-delay:.29s"><span class="stage-num">04</span><span class="stage-dot" style="background:var(--gold)"></span><span class="stage-name">AI Agent Decision</span><span class="stage-tag">REASON</span></div>
-          <div class="s1-stage" style="animation-delay:.36s"><span class="stage-num">05</span><span class="stage-dot" style="background:var(--green)"></span><span class="stage-name">Human Review</span><span class="stage-tag">OVERSIGHT</span></div>
-          <div class="s1-stage" style="animation-delay:.43s"><span class="stage-num">06</span><span class="stage-dot" style="background:var(--teal)"></span><span class="stage-name">Document Output</span><span class="stage-tag">AUDIT</span></div>
+      <button class="btn btn-primary">Get Started</button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-content">
+      <div class="hero-text">
+        <span class="badge badge-blue" style="margin-bottom: 16px;">New Generation Finance</span>
+        <h1>Intelligent Banking for the Modern Era</h1>
+        <p>Experience the fastest loan processing engine powered by advanced data analytics. Secure, compliant, and transparent financial decision making.</p>
+        <div style="display: flex; gap: 16px;">
+          <button class="btn btn-primary">Start Application</button>
+          <button class="btn btn-outline">View Demo</button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <h4>&lt;5m</h4>
+            <span>Processing Time</span>
+          </div>
+          <div class="stat-item">
+            <h4>99.9%</h4>
+            <span>Accuracy Rate</span>
+          </div>
+          <div class="stat-item">
+            <h4>24/7</h4>
+            <span>Instant Support</span>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- S2 PROBLEM/SOLUTION -->
-  <div class="slide" id="s2">
-    <div style="position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--border),transparent)"></div>
-    <div class="s2-content">
-      <div class="s2-half">
-        <div class="anim"><div class="slide-label" style="margin-bottom:5px">The Status Quo</div><div class="s2-title" style="color:var(--red)">The Problem</div></div>
-        <div class="prob-item anim" style="animation-delay:.08s"><div class="prob-stat" style="color:var(--red)">15–30d</div><div class="prob-desc">Traditional loan processing time in India — weeks of manual document review and underwriting</div></div>
-        <div class="prob-item anim" style="animation-delay:.15s"><div class="prob-stat" style="color:var(--red)">₹500+</div><div class="prob-desc">Cost per loan application at traditional banks, driving up interest rates for customers</div></div>
-        <div class="prob-item anim" style="animation-delay:.22s"><div class="prob-stat" style="color:var(--red)">60%</div><div class="prob-desc">Rejection rate with zero explanation — customers have no idea why they were denied</div></div>
-        <div class="prob-item anim" style="animation-delay:.29s"><div class="prob-stat" style="color:var(--red);font-size:1rem;padding-top:4px">Hallucination</div><div class="prob-desc">AI chatbots in banking give unreliable financial advice with no domain grounding</div></div>
-        <div class="prob-item anim" style="animation-delay:.36s;border-bottom:none"><div class="prob-stat" style="color:var(--red);font-size:.9rem;padding-top:4px">Siloed Tools</div><div class="prob-desc">No unified platform combining loan processing, advisory, and analytics together</div></div>
-      </div>
-      <div class="s2-half">
-        <div class="anim"><div class="slide-label" style="margin-bottom:5px">ArthMitra's Answer</div><div class="s2-title" style="color:var(--green)">The Solution</div></div>
-        <div class="sol-item anim" style="animation-delay:.08s"><div class="sol-bar" style="background:var(--cyan)"></div><div><div class="sol-label" style="color:var(--cyan)">Multi-Agent Loan Engine</div><div class="sol-desc">4 specialized agents — Sales → Verification → Underwriting → Sanction — process applications autonomously</div></div></div>
-        <div class="sol-item anim" style="animation-delay:.15s"><div class="sol-bar" style="background:var(--purple)"></div><div><div class="sol-label" style="color:var(--purple)">RAG Advisory System</div><div class="sol-desc">747 vector chunks from 22 banking documents power grounded, zero-hallucination financial advice</div></div></div>
-        <div class="sol-item anim" style="animation-delay:.22s"><div class="sol-bar" style="background:var(--gold)"></div><div><div class="sol-label" style="color:var(--gold)">Smart Affordability Engine</div><div class="sol-desc">Reverse-engineers optimal loan tenure using RBI-compliant FOIR — converts rejections into approvals</div></div></div>
-        <div class="sol-item anim" style="animation-delay:.29s"><div class="sol-bar" style="background:var(--teal)"></div><div><div class="sol-label" style="color:var(--teal)">Analytics Dashboard</div><div class="sol-desc">7 views: risk heatmaps, RAG coverage gaps, and agent reasoning patterns for administrators</div></div></div>
-        <div class="sol-item anim" style="animation-delay:.36s"><div class="sol-bar" style="background:var(--green)"></div><div><div class="sol-label" style="color:var(--green)">Live Market Integration</div><div class="sol-desc">Real-time Nifty 50, Sensex, and 14 individual stocks via Yahoo Finance for investment advisory</div></div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- S3 PIPELINE -->
-  <div class="slide" id="s3">
-    <div style="position:absolute;inset:0;overflow:hidden">
-      <div class="s1-orb" style="width:450px;height:450px;background:var(--teal);opacity:.07;top:-100px;right:-80px"></div>
-      <div class="s1-orb" style="width:280px;height:280px;background:var(--purple);opacity:.06;bottom:0;left:22%"></div>
-    </div>
-    <div class="s3-content">
-      <div class="s3-hdr">
-        <div><div class="slide-label anim" style="margin-bottom:5px">Architecture · Zone 1–4</div><div class="s3-title anim">End-to-End Cognitive Pipeline</div></div>
-        <div class="slide-label">03 / 07</div>
-      </div>
-      <div class="pipeline-flow anim">
-        <div class="pipe-node"><div class="pipe-box" style="--col:var(--cyan)"><div class="pipe-name">Webhook Trigger</div><div class="pipe-sub">Loan Request</div></div></div>
-        <div class="pipe-arrow">→</div>
-        <div class="pipe-node"><div class="pipe-box" style="--col:var(--blue)"><div class="pipe-name">Extract Input</div><div class="pipe-sub">Parse Data</div></div></div>
-        <div class="pipe-arrow">→</div>
-        <div class="pipe-node"><div class="pipe-box" style="--col:var(--teal)"><div class="pipe-name">Enrichment</div><div class="pipe-sub">5 Parallel APIs</div></div></div>
-        <div class="pipe-arrow">→</div>
-        <div class="pipe-node"><div class="pipe-box" style="--col:var(--purple)"><div class="pipe-name">RAG Retrieval</div><div class="pipe-sub">Policy Chunks</div></div></div>
-        <div class="pipe-arrow">→</div>
-        <div class="pipe-node"><div class="pipe-box" style="--col:var(--gold)"><div class="pipe-name">AI Decision</div><div class="pipe-sub">LLM Reasoning</div></div></div>
-        <div class="pipe-arrow">→</div>
-        <div class="pipe-node"><div class="pipe-box" style="--col:var(--green)"><div class="pipe-name">Human Review</div><div class="pipe-sub">Oversight Layer</div></div></div>
-        <div class="pipe-arrow">→</div>
-        <div class="pipe-node"><div class="pipe-box" style="--col:var(--teal)"><div class="pipe-name">Document Output</div><div class="pipe-sub">Audit Trail</div></div></div>
-      </div>
-      <div class="enrich-layer anim">
-        <div class="enrich-title">↳ Enrichment Layer — Parallel Execution</div>
-        <div class="enrich-nodes">
-          <div class="enrich-node"><b>CRM</b>Customer History</div>
-          <div class="enrich-node"><b>BUREAU</b>Credit Check</div>
-          <div class="enrich-node"><b>OFFER MART</b>Pre-approved Limit</div>
-          <div class="enrich-node"><b>EXISTING</b>Active Loans</div>
-          <div class="enrich-node"><b>AFFORDABILITY</b>Smart Calculator</div>
-        </div>
-      </div>
-      <div class="outcomes-row anim">
-        <div class="outcome" style="border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.05)"><div class="outcome-label" style="color:var(--green)">✓ CREDIT PASS</div><div class="outcome-desc">→ Underwriting Engine → Sanction Letter → Approval with full audit trail</div></div>
-        <div class="outcome" style="border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.05)"><div class="outcome-label" style="color:var(--red)">✗ TIER 1 FAIL</div><div class="outcome-desc">→ Rejection Letter auto-generated with reason codes → Customer notified instantly</div></div>
-        <div class="outcome" style="border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.05)"><div class="outcome-label" style="color:var(--gold)">⚠ EDGE CASE</div><div class="outcome-desc">→ Escalated to Human Review Layer with AI-generated officer briefing pack</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- S4 MULTI-AGENT -->
-  <div class="slide" id="s4">
-    <div class="s4-content">
-      <div class="s4-left">
-        <div class="slide-label anim">Orchestration Layer</div>
-        <div class="s4-big anim">Master Agent<br/><span>Routes Everything</span></div>
-        <div class="s4-desc anim">The Master Agent receives every application and autonomously selects the optimal sub-agent chain based on loan type, risk flags, and customer profile — no hardcoded rules.</div>
-        <div class="master-chip anim"><div class="master-chip-label">MASTER AGENT</div><div class="master-chip-sub">◉ Orchestrator · Dynamic Routing · ReAct Reasoning</div></div>
-        <div class="s4-note anim">Each sub-agent has its own specialized RAG context and can autonomously invoke tools, escalate to humans, or loop back for re-verification.</div>
-      </div>
-      <div class="s4-right">
-        <div class="agent-card anim" style="--acol:var(--blue)"><div class="agent-name" style="color:var(--blue)">Sales Agent</div><div class="agent-sub">Negotiation & pre-screening via RAG. Handles initial queries and product matching.</div><div class="agent-badge" style="color:var(--blue);border-color:rgba(26,86,219,.3)">ZONE 1</div></div>
-        <div class="agent-card anim" style="--acol:var(--purple)"><div class="agent-name" style="color:var(--purple)">Underwriting Agent</div><div class="agent-sub">FOIR calc, LTV check, numeric claim validation with regex verification.</div><div class="agent-badge" style="color:var(--purple);border-color:rgba(139,92,246,.3)">ZONE 3</div></div>
-        <div class="agent-card anim" style="--acol:var(--teal)"><div class="agent-name" style="color:var(--teal)">Verification Agent</div><div class="agent-sub">KYC document validation, CIBIL score fetch, credit bureau cross-check.</div><div class="agent-badge" style="color:var(--teal);border-color:rgba(13,148,136,.3)">ZONE 2</div></div>
-        <div class="agent-card anim" style="--acol:var(--green)"><div class="agent-name" style="color:var(--green)">Sanction Agent</div><div class="agent-sub">Generates offer letter, sets disbursal schedule, posts approval to CRM.</div><div class="agent-badge" style="color:var(--green);border-color:rgba(16,185,129,.3)">ZONE 4</div></div>
-        <div class="agent-card anim" style="--acol:var(--gold)"><div class="agent-name" style="color:var(--gold)">Advisory Agent</div><div class="agent-sub">ArthMitra persona — specialized financial planning RAG with banking KB.</div><div class="agent-badge" style="color:var(--gold);border-color:rgba(245,158,11,.3)">ADVISORY</div></div>
-        <div class="agent-card anim" style="--acol:var(--red)"><div class="agent-name" style="color:var(--red)">Human Review Layer</div><div class="agent-sub">Edge case escalation with full AI briefing pack for officer sign-off.</div><div class="agent-badge" style="color:var(--red);border-color:rgba(239,68,68,.3)">OVERSIGHT</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- S5 RAG -->
-  <div class="slide" id="s5">
-    <div class="s5-content">
-      <div class="s5-half">
-        <div class="slide-label anim">Anti-Hallucination System</div>
-        <div class="s5-title anim">RAG Verification<br/>Architecture</div>
-        <div class="vstep anim" style="animation-delay:.08s"><div class="vstep-num" style="background:rgba(6,182,212,.15);color:var(--cyan)">1</div><div><div class="vstep-title" style="color:var(--cyan)">Light Check</div><div class="vstep-desc">Semantic similarity of LLM output vs retrieved chunks. Flags low-confidence answers before they reach the user.</div></div></div>
-        <div class="vstep anim" style="animation-delay:.15s"><div class="vstep-num" style="background:rgba(139,92,246,.15);color:var(--purple)">2</div><div><div class="vstep-title" style="color:var(--purple)">Full Check</div><div class="vstep-desc">Regex extracts all numeric claims (FOIR %, CIBIL, rate, EMI). Each validated against live vector store and RBI policy.</div></div></div>
-        <div class="vstep anim" style="animation-delay:.22s"><div class="vstep-num" style="background:rgba(239,68,68,.15);color:var(--red)">3</div><div><div class="vstep-title" style="color:var(--red)">Regeneration Loop</div><div class="vstep-desc">Hallucination probability &gt;50% → agent transparently discards and regenerates with tighter context constraints.</div></div></div>
-        <div class="vstep anim" style="animation-delay:.29s"><div class="vstep-num" style="background:rgba(245,158,11,.15);color:var(--gold)">4</div><div><div class="vstep-title" style="color:var(--gold)">Knowledge Gap Alert</div><div class="vstep-desc">Low retrieval similarity flags a gap on the dashboard, routing for policy document update and KB expansion.</div></div></div>
-        <div class="rag-meta anim" style="animation-delay:.36s">747 vector chunks · 22 banking documents<br/>ChromaDB · SentenceTransformers (all-MiniLM-L6-v2)</div>
-      </div>
-      <div class="s5-half">
-        <div class="slide-label anim">Live Metrics</div>
-        <div class="s5-title anim">RAG Performance<br/>Dashboard</div>
-        <div class="rag-bar-row anim" style="animation-delay:.1s" id="ragBars">
-          <div class="rag-bar-item"><div class="rag-bar-hdr"><span class="rag-bar-lbl">Retrieval Accuracy</span><span class="rag-bar-val" style="color:var(--green)">96.2%</span></div><div class="rag-bar-track"><div class="rag-bar-fill" style="background:var(--green)" data-w="96.2"></div></div></div>
-          <div class="rag-bar-item"><div class="rag-bar-hdr"><span class="rag-bar-lbl">Policy Coverage</span><span class="rag-bar-val" style="color:var(--blue)">91.8%</span></div><div class="rag-bar-track"><div class="rag-bar-fill" style="background:var(--blue)" data-w="91.8"></div></div></div>
-          <div class="rag-bar-item"><div class="rag-bar-hdr"><span class="rag-bar-lbl">Context Relevance Score</span><span class="rag-bar-val" style="color:var(--purple)">88.4%</span></div><div class="rag-bar-track"><div class="rag-bar-fill" style="background:var(--purple)" data-w="88.4"></div></div></div>
-          <div class="rag-bar-item"><div class="rag-bar-hdr"><span class="rag-bar-lbl">Verification Pass Rate</span><span class="rag-bar-val" style="color:var(--teal)">93.5%</span></div><div class="rag-bar-track"><div class="rag-bar-fill" style="background:var(--teal)" data-w="93.5"></div></div></div>
-          <div class="rag-bar-item"><div class="rag-bar-hdr"><span class="rag-bar-lbl">Hallucination Rate</span><span class="rag-bar-val" style="color:var(--red)">3.8%</span></div><div class="rag-bar-track"><div class="rag-bar-fill" style="background:var(--red)" data-w="3.8"></div></div></div>
-          <div class="rag-bar-item"><div class="rag-bar-hdr"><span class="rag-bar-lbl">Knowledge Gap %</span><span class="rag-bar-val" style="color:var(--gold)">7.1%</span></div><div class="rag-bar-track"><div class="rag-bar-fill" style="background:var(--gold)" data-w="7.1"></div></div></div>
-        </div>
-        <div style="margin-top:auto;padding-top:.9rem;border-top:1px solid var(--border)" class="anim" style="animation-delay:.4s">
-          <div class="slide-label" style="margin-bottom:8px">Self-Improving Knowledge Base</div>
-          <div style="font-size:.73rem;color:var(--gray);line-height:1.65">Every low-confidence query is logged automatically. The system identifies coverage gaps and surfaces them for policy document updates — meaning <span style="color:var(--white)">more queries = better coverage</span> over time.</div>
+      <div class="hero-visual">
+        <!-- Abstract Decoration -->
+        <div style="position: absolute; right: -20px; top: -20px; width: 100px; height: 100px; background: #EFF6FF; border-radius: 50%; z-index: 1;"></div>
+        
+        <div class="app-card">
+          <div class="app-header">
+            <span style="font-weight: 600; color: var(--primary);">Dashboard</span>
+            <div style="width: 32px; height: 32px; background: #F1F5F9; border-radius: 50%;"></div>
+          </div>
+          <div class="app-body">
+            <div class="balance-card">
+              <div class="balance-label">Total Balance</div>
+              <div class="balance-amount">$124,500.00</div>
+              <div style="margin-top: 12px; font-size: 0.85rem; opacity: 0.8;">+2.4% this month</div>
+            </div>
+            <div class="tx-list">
+              <div class="tx-item">
+                <div style="display:flex; align-items:center;">
+                  <div class="tx-icon">↓</div>
+                  <div class="tx-details">
+                    <div class="tx-title">Loan Disbursement</div>
+                    <div class="tx-date">Today, 10:23 AM</div>
+                  </div>
+                </div>
+                <div class="tx-amount" style="color: var(--success);">+$25,000</div>
+              </div>
+              <div class="tx-item">
+                <div style="display:flex; align-items:center;">
+                  <div class="tx-icon" style="background: #FEF2F2; color: #EF4444;">↑</div>
+                  <div class="tx-details">
+                    <div class="tx-title">Auto-Repayment</div>
+                    <div class="tx-date">Yesterday, 4:00 PM</div>
+                  </div>
+                </div>
+                <div class="tx-amount">-$450.00</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- S6 COMPETITIVE -->
-  <div class="slide" id="s6">
-    <div class="s6-content">
-      <div style="display:flex;justify-content:space-between;align-items:flex-end">
-        <div><div class="slide-label anim" style="margin-bottom:5px">Competitive Landscape</div><div class="s6-title anim">Why ArthMitra Wins</div></div>
-        <div class="slide-label">06 / 07</div>
+  <!-- Process Flow Section -->
+  <section class="section bg-subtle" id="process">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge badge-green" style="margin-bottom: 12px;">Workflow</span>
+        <h2>Orchestrated Financial Pipeline</h2>
+        <p>Our intelligent system handles complexity so you don't have to. A fully transparent, auditable process flow.</p>
       </div>
-      <table class="compare-table anim">
-        <thead><tr><th style="width:22%">Feature</th><th>Traditional Banks</th><th>Fintech Apps</th><th class="col-am col-am-h">ArthMitra</th></tr></thead>
-        <tbody>
-          <tr><td>Processing Time</td><td>15–30 days</td><td>2–3 days</td><td class="am col-am">5 minutes</td></tr>
-          <tr><td>AI Safety</td><td>None</td><td>Basic</td><td class="am col-am">2-Layer Verification</td></tr>
-          <tr><td>Advisory Quality</td><td>None</td><td>Generic Chatbot</td><td class="am col-am">RAG-Grounded, Domain-Specific</td></tr>
-          <tr><td>Self-Learning</td><td>No</td><td>No</td><td class="am col-am">Auto-Improving KB</td></tr>
-          <tr><td>Offline Capable</td><td>No</td><td>No</td><td class="am col-am">100% Local</td></tr>
-          <tr><td>Cost Per Loan</td><td>₹500</td><td>₹100</td><td class="am col-am">₹5</td></tr>
-        </tbody>
-      </table>
-      <div class="inno-row anim">
-        <div class="inno-card" style="--ic:var(--cyan);border-color:rgba(6,182,212,.22)"><div class="inno-title" style="color:var(--cyan)">⚡ Smart Affordability Engine</div><div class="inno-desc">Reverse-engineers optimal tenure instead of rejecting. ₹20L loan, ₹1L income → 60-month tenure (₹42,494 EMI) over rejection at 48-month (₹51,242 EMI).</div></div>
-        <div class="inno-card" style="--ic:var(--purple);border-color:rgba(139,92,246,.22)"><div class="inno-title" style="color:var(--purple)">🧠 Self-Improving RAG</div><div class="inno-desc">Automatically identifies knowledge gaps from low-confidence queries. More applications processed = smarter, more accurate system over time.</div></div>
-        <div class="inno-card" style="--ic:var(--green);border-color:rgba(16,185,129,.22)"><div class="inno-title" style="color:var(--green)">👁 Human-in-the-Loop</div><div class="inno-desc">Edge cases escalated with full AI-generated officer briefing — risk summary, cited policy clauses, retrieved evidence, and recommended decision.</div></div>
+
+      <div class="flow-diagram">
+        <div class="flow-step">
+          <div class="flow-icon">⚡</div>
+          <div class="flow-title">Data Ingestion</div>
+          <div class="flow-desc">Securely connect banking APIs and upload documents via encrypted channels.</div>
+        </div>
+        
+        <div class="flow-step">
+          <div class="flow-icon">🔍</div>
+          <div class="flow-title">Verification</div>
+          <div class="flow-desc">Automated KYC, credit bureau cross-checks, and fraud detection scanning.</div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-icon">⚖️</div>
+          <div class="flow-title">Risk Analysis</div>
+          <div class="flow-desc">Deep-dive financial underwriting using regulatory compliant models.</div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-icon">✅</div>
+          <div class="flow-title">Approval</div>
+          <div class="flow-desc">Instant sanction letter generation and automated fund disbursement.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Features Grid -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>Enterprise-Grade Features</h2>
+        <p>Built for scale, security, and reliability.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <span class="feature-icon">🛡️</span>
+          <h3 class="feature-title">Regulatory Compliance</h3>
+          <p class="feature-text">Built-in adherence to RBI guidelines and global financial standards. Automated audit trails for every decision.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">📊</span>
+          <h3 class="feature-title">Real-Time Analytics</h3>
+          <p class="feature-text">Live dashboards tracking loan performance, risk distribution, and operational efficiency metrics.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🔒</span>
+          <h3 class="feature-title">Bank-Grade Security</h3>
+          <p class="feature-text">End-to-end encryption, SOC2 compliance, and isolated data environments for maximum privacy.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🤖</span>
+          <h3 class="feature-title">Smart Advisory</h3>
+          <p class="feature-text">Context-aware financial planning tools that help customers make better borrowing decisions.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">📱</span>
+          <h3 class="feature-title">Omnichannel Access</h3>
+          <p class="feature-text">Seamless experience across web, mobile, and API integrations for embedded finance.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">⚡</span>
+          <h3 class="feature-title">Instant Decisioning</h3>
+          <p class="feature-text">Reduce turnaround time from weeks to minutes with our automated underwriting engine.</p>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- S7 CLOSING -->
-  <div class="slide" id="s7">
-    <div style="position:absolute;inset:0;overflow:hidden">
-      <div class="grid-bg" style="opacity:.4"></div>
-      <div class="s1-orb" style="width:580px;height:580px;background:var(--blue);right:-150px;top:-150px;opacity:.2"></div>
-      <div class="s1-orb" style="width:320px;height:320px;background:var(--cyan);left:-80px;bottom:-80px;opacity:.17"></div>
-      <div class="s1-orb" style="width:240px;height:240px;background:var(--purple);bottom:22%;right:22%;opacity:.1"></div>
-    </div>
-    <div class="s7-content">
-      <div class="s7-pre anim">ArthMitra · Agentic AI Banking · 2025</div>
-      <div class="s7-title anim">The Future of<br/><em>Banking</em> is Here.</div>
-      <div class="s7-sub anim">ArthMitra processes loans in 5 minutes, provides zero-hallucination financial advisory, and puts humans in control of every critical decision.</div>
-      <div class="s7-pillars anim">
-        <div class="s7-pillar" style="--pc:var(--cyan)"><div class="s7-pillar-icon">⚡</div><div class="s7-pillar-title" style="color:var(--cyan)">Instant</div><div class="s7-pillar-desc">5-minute end-to-end loan processing vs 15–30 days traditional</div></div>
-        <div class="s7-pillar" style="--pc:var(--purple)"><div class="s7-pillar-icon">🛡</div><div class="s7-pillar-title" style="color:var(--purple)">Trustworthy</div><div class="s7-pillar-desc">2-layer anti-hallucination verification on every AI output</div></div>
-        <div class="s7-pillar" style="--pc:var(--green)"><div class="s7-pillar-icon">🧠</div><div class="s7-pillar-title" style="color:var(--green)">Intelligent</div><div class="s7-pillar-desc">Self-improving multi-agent system that gets smarter with every application</div></div>
+  <!-- Comparison Section -->
+  <section class="section bg-subtle">
+    <div class="container">
+      <div class="section-header">
+        <h2>Why ArthMitra Stands Out</h2>
+      </div>
+      <div style="overflow-x: auto;">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th style="width: 30%;">Feature</th>
+              <th style="width: 25%;">Traditional Banks</th>
+              <th style="width: 25%;">Standard Fintech</th>
+              <th style="width: 20%;" class="col-highlight">ArthMitra</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Processing Speed</td>
+              <td>15-30 Days</td>
+              <td>2-3 Days</td>
+              <td class="col-highlight">5 Minutes</td>
+            </tr>
+            <tr>
+              <td>Document Verification</td>
+              <td>Manual</td>
+              <td>Semi-Automated</td>
+              <td class="col-highlight">Fully Automated</td>
+            </tr>
+            <tr>
+              <td>Decision Transparancy</td>
+              <td><span class="cross-icon">✕</span> Opaque</td>
+              <td><span class="cross-icon">✕</span> Black Box</td>
+              <td class="col-highlight"><span class="check-icon">✓</span> Auditable</td>
+            </tr>
+            <tr>
+              <td>Cost Efficiency</td>
+              <td>High Overheads</td>
+              <td>Moderate</td>
+              <td class="col-highlight">Optimized</td>
+            </tr>
+            <tr>
+              <td>Compliance Check</td>
+              <td>Manual / Slow</td>
+              <td>Batch Process</td>
+              <td class="col-highlight">Real-time</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </div>
+  </section>
 
-</div>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div>
+          <div class="footer-brand">ArthMitra</div>
+          <p class="footer-desc">Empowering financial institutions with next-generation intelligent processing infrastructure.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#">Lending Engine</a></li>
+            <li><a href="#">Risk Analysis</a></li>
+            <li><a href="#">API Documentation</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Security</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        © 2026 ArthMitra Financial Technologies. All rights reserved.
+      </div>
+    </div>
+  </footer>
 
-<nav class="nav" id="navDots"></nav>
-<div class="slide-counter" id="counter">01 / 07</div>
-<button class="arrow" id="prev">←</button>
-<button class="arrow" id="next">→</button>
-
-<script>
-  // Cursor
-  const cur=document.getElementById('cur'),ring=document.getElementById('curRing');
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx-6+'px';cur.style.top=my-6+'px'});
-  (function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx-18+'px';ring.style.top=ry-18+'px';requestAnimationFrame(loop)})();
-  document.querySelectorAll('button,.s1-stage,.agent-card,.pipe-box,.inno-card,.s7-pillar,.enrich-node').forEach(el=>{
-    el.addEventListener('mouseenter',()=>{cur.style.transform='scale(2)';ring.style.width=ring.style.height='50px'});
-    el.addEventListener('mouseleave',()=>{cur.style.transform='';ring.style.width=ring.style.height='36px'});
-  });
-
-  // Slides
-  const slides=document.querySelectorAll('.slide'),total=slides.length;
-  let cur_=0;
-  const navEl=document.getElementById('navDots'),cntr=document.getElementById('counter'),prog=document.getElementById('progress');
-
-  slides.forEach((_,i)=>{
-    const d=document.createElement('button');
-    d.className='nav-dot'+(i===0?' active':'');
-    d.addEventListener('click',()=>go(i));
-    navEl.appendChild(d);
-  });
-
-  function go(n){
-    if(n===cur_)return;
-    slides[cur_].classList.remove('active');
-    slides[cur_].classList.add('exit');
-    const prev=cur_;
-    setTimeout(()=>slides[prev].classList.remove('exit'),620);
-    cur_=((n%total)+total)%total;
-    slides[cur_].classList.add('active');
-    document.querySelectorAll('.nav-dot').forEach((d,i)=>d.classList.toggle('active',i===cur_));
-    cntr.textContent=String(cur_+1).padStart(2,'0')+' / '+String(total).padStart(2,'0');
-    prog.style.width=((cur_+1)/total*100)+'%';
-    if(cur_===4)setTimeout(animBars,380);
-  }
-
-  document.getElementById('prev').addEventListener('click',()=>go(cur_-1));
-  document.getElementById('next').addEventListener('click',()=>go(cur_+1));
-  document.addEventListener('keydown',e=>{
-    if(e.key==='ArrowRight'||e.key==='ArrowDown')go(cur_+1);
-    if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(cur_-1);
-  });
-  let tx=0;
-  document.addEventListener('touchstart',e=>tx=e.touches[0].clientX);
-  document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)go(dx<0?cur_+1:cur_-1)});
-
-  function animBars(){document.querySelectorAll('.rag-bar-fill').forEach(b=>b.style.width=b.dataset.w+'%')}
-
-  prog.style.width=(1/total*100)+'%';
-</script>
 </body>
 </html>
